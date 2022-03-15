@@ -1,0 +1,187 @@
+.graph.container {
+    background-color: aliceblue;
+    border: 1px solid #555;
+}
+
+.node {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center; 
+}
+
+.node:hover {
+    color: white !important;
+}
+
+hr {
+    border-color: royalblue;
+    transition: border-color 0.3s;
+}
+
+span {
+    padding-left: 5px;
+    padding-right: 5px;
+    transition-property: background-color, color;
+    transition-duration: 0.2s;
+    border-radius: 25%;
+}
+
+.path {
+    cursor: pointer;
+}
+
+.path:hover > hr {
+    border-color: aqua;
+}
+
+.path:hover > span {
+    background-color: darkcyan;
+    color: white;
+    border: none;
+}
+
+.path > span {
+    background-color: aliceblue;
+    border: 1px solid rgb(224, 224, 224);
+}
+
+#path-1-8 {
+    transform: rotate(17.5deg);
+    width: 612px;
+    position: absolute;
+    top: 190px;
+    left: 268px;
+}
+
+#path-1-7 {
+    transform: rotate(292deg);
+    width: 59px;
+    position: absolute;
+    top: 150px;
+    left: 185px;
+}
+
+#path-8-10 {
+    transform: rotate(112deg);
+    width: 59px;
+    position: absolute;
+    top: 263px;
+    right: 186px;
+}
+
+#path-8-5 {
+    transform: rotate(37.5deg);
+    width: 196px;
+    position: absolute;
+    top: 218px;
+    right: 245px;
+}
+
+#path-5-10 {
+    transform: rotate(13deg);
+    width: 196px;
+    position: absolute;
+    top: 161px;
+    right: 231px;
+}
+
+#path-5-7 {
+    transform: rotate(-5.5deg);
+    width: 426px;
+    position: absolute;
+    top: 167px;
+    left: 236px;
+}
+
+#path-7-4 {
+    transform: rotate(248deg);
+    width: 59px;
+    position: absolute;
+    top: 263px;
+    left: 185px;
+}
+
+#path-7-3 {
+    transform: rotate(13.5deg);
+    width: 192px;
+    position: absolute;
+    top: 221px;
+    left: 239px;
+}
+
+#path-3-4 {
+    transform: rotate(-12.5deg);
+    width: 153px;
+    position: absolute;
+    top: 270px;
+    left: 273px;
+}
+
+#path-3-6 {
+    transform: rotate(22deg);
+    width: 77px;
+    position: absolute;
+    top: 268px;
+    left: 476px;
+}
+
+#path-4-6 {
+    width: 265px;
+    position: absolute;
+    top: 292px;
+    left: 279px;
+}
+
+#path-6-5 {
+    width: 265px;
+    position: absolute;
+    top: 292px;
+    right: 279px;
+}
+
+#path-6-10 {
+    transform: rotate(345deg);
+    width: 317px;
+    position: absolute;
+    top: 246px;
+    right: 236px;
+}
+
+#path-10-9 {
+    transform: rotate(68deg);
+    width: 59px;
+    position: absolute;
+    top: 150px;
+    right: 186px;
+}
+
+#path-9-2 {
+    width: 265px;
+    position: absolute;
+    top: 95px;
+    right: 279px;
+}
+
+#path-2-3 {
+    transform: rotate(310deg);
+    width: 142px;
+    position: absolute;
+    top: 172px;
+    left: 424px;
+}
+
+#path-2-5 {
+    transform: rotate(22deg);
+    width: 77px;
+    position: absolute;
+    top: 118px;
+    left: 595px;
+}
+
+#path-2-1 {
+    width: 265px;
+    position: absolute;
+    top: 95px;
+    left: 279px;
+}
