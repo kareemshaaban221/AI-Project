@@ -65,4 +65,6 @@ function resetGraph () {
         elem.classList.remove('active-path');
     }
 
+    selectedPath = [];
+
 }
