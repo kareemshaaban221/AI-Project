@@ -3,32 +3,38 @@
     border: 1px solid #ddd;
 }
 
+/***** Node styles ******/
 .node {
     display: inline-block;
     width: 50px;
     height: 50px;
     text-align: center; 
+    color: #555;
 }
 
 .node:hover {
     color: white !important;
 }
 
-hr {
-    border-color: royalblue;
-    transition: border-color 0.3s;
+/****** General path styles *****/
+.path {
+    cursor: pointer;
 }
 
-span {
+.path > span {
     padding-left: 5px;
     padding-right: 5px;
     transition-property: background-color, color;
     transition-duration: 0.2s;
     border-radius: 25%;
+    background-color: aliceblue;
+    border: 1px solid rgb(224, 224, 224);
 }
 
-.path {
-    cursor: pointer;
+.path > hr {
+    border-color: royalblue;
+    border-width: 2px;
+    transition: border-color 0.3s;
 }
 
 .path:hover > hr {
@@ -36,16 +42,14 @@ span {
 }
 
 .path:hover > span {
-    background-color: darkcyan;
+    background-color: rgba(0, 139, 139, 0.712);
     color: white;
     border: none;
 }
 
-.path > span {
-    background-color: aliceblue;
-    border: 1px solid rgb(224, 224, 224);
-}
+/****** Paths ******/
 
+/* paths leave from node 1 */
 #path-1-8 {
     transform: rotate(17.5deg);
     width: 612px;
@@ -53,7 +57,6 @@ span {
     top: 190px;
     left: 268px;
 }
-
 #path-1-7 {
     transform: rotate(292deg);
     width: 59px;
@@ -61,102 +64,15 @@ span {
     top: 150px;
     left: 185px;
 }
-
-#path-8-10 {
-    transform: rotate(112deg);
-    width: 59px;
-    position: absolute;
-    top: 263px;
-    right: 186px;
-}
-
-#path-8-5 {
-    transform: rotate(37.5deg);
-    width: 196px;
-    position: absolute;
-    top: 218px;
-    right: 245px;
-}
-
-#path-5-10 {
-    transform: rotate(13deg);
-    width: 196px;
-    position: absolute;
-    top: 161px;
-    right: 231px;
-}
-
-#path-5-7 {
-    transform: rotate(-5.5deg);
-    width: 426px;
-    position: absolute;
-    top: 167px;
-    left: 236px;
-}
-
-#path-7-4 {
-    transform: rotate(248deg);
-    width: 59px;
-    position: absolute;
-    top: 263px;
-    left: 185px;
-}
-
-#path-7-3 {
-    transform: rotate(13.5deg);
-    width: 192px;
-    position: absolute;
-    top: 221px;
-    left: 239px;
-}
-
-#path-3-4 {
-    transform: rotate(-12.5deg);
-    width: 153px;
-    position: absolute;
-    top: 270px;
-    left: 273px;
-}
-
-#path-3-6 {
-    transform: rotate(22deg);
-    width: 77px;
-    position: absolute;
-    top: 268px;
-    left: 476px;
-}
-
-#path-4-6 {
+#path-1-2 {
     width: 265px;
     position: absolute;
-    top: 292px;
+    top: 95px;
     left: 279px;
 }
 
-#path-6-5 {
-    width: 265px;
-    position: absolute;
-    top: 292px;
-    right: 279px;
-}
-
-#path-6-10 {
-    transform: rotate(345deg);
-    width: 317px;
-    position: absolute;
-    top: 246px;
-    right: 236px;
-}
-
-#path-10-9 {
-    transform: rotate(68deg);
-    width: 59px;
-    position: absolute;
-    top: 150px;
-    right: 186px;
-}
-
-#path-9-2 {
+/* paths leave from node 2 */
+#path-2-9 {
     width: 265px;
     position: absolute;
     top: 95px;
@@ -179,9 +95,117 @@ span {
     left: 595px;
 }
 
-#path-2-1 {
+/* paths leave from node 3 */
+#path-3-7 {
+    transform: rotate(13.5deg);
+    width: 192px;
+    position: absolute;
+    top: 221px;
+    left: 239px;
+}
+#path-3-4 {
+    transform: rotate(-12.5deg);
+    width: 153px;
+    position: absolute;
+    top: 270px;
+    left: 273px;
+}
+#path-3-6 {
+    transform: rotate(22deg);
+    width: 77px;
+    position: absolute;
+    top: 268px;
+    left: 476px;
+}
+
+/* paths leave from node 4 */
+#path-4-7 {
+    transform: rotate(248deg);
+    width: 59px;
+    position: absolute;
+    top: 263px;
+    left: 185px;
+}
+#path-4-6 {
     width: 265px;
     position: absolute;
-    top: 95px;
+    top: 292px;
     left: 279px;
+}
+
+/* paths leave from node 5 */
+#path-5-8 {
+    transform: rotate(37.5deg);
+    width: 196px;
+    position: absolute;
+    top: 218px;
+    right: 245px;
+}
+#path-5-10 {
+    transform: rotate(13deg);
+    width: 196px;
+    position: absolute;
+    top: 161px;
+    right: 231px;
+}
+#path-5-7 {
+    transform: rotate(-5.5deg);
+    width: 426px;
+    position: absolute;
+    top: 167px;
+    left: 236px;
+}
+
+/* paths leave from node 6 */
+#path-6-10 {
+    transform: rotate(345deg);
+    width: 317px;
+    position: absolute;
+    top: 246px;
+    right: 236px;
+}
+#path-6-8 {
+    width: 265px;
+    position: absolute;
+    top: 292px;
+    right: 279px;
+}
+
+/* paths leave from node 8 */
+#path-8-10 {
+    transform: rotate(112deg);
+    width: 59px;
+    position: absolute;
+    top: 263px;
+    right: 186px;
+}
+
+/* paths leave from node 9 */
+#path-9-10 {
+    transform: rotate(68deg);
+    width: 59px;
+    position: absolute;
+    top: 150px;
+    right: 186px;
+}
+
+
+/* helper classes */
+.active-node {
+    background-color: rgb(51, 51, 255);
+    color: white;
+}
+
+.active-path > hr {
+    border-color: rgb(255, 75, 75);
+}
+
+.active-path:hover > hr {
+    border-color: red;
+    border-width: 3px;
+}
+
+.active-path:hover > span {
+    background-color: rgba(255, 0, 0, 0.589);
+    color: white;
 }
