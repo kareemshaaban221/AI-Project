@@ -49,8 +49,8 @@ function nodeClick (e) {
             resetGraph();
         }
     } else {
-        if(!validPathExists()) {
-            alert('There is no valid edges can be selected any more');
+        if(!validNodeExists()) {
+            alert('There is no valid nodes can be selected any more');
             resetGraph();
         }
     }
@@ -100,7 +100,7 @@ function resetGraph () {
 
 }
 
-function getPath (i, j) {
+function getPath (i, j) { // get path html element that link i with j
 
     let firstNode = Math.min(i, j);
     let secondNode = Math.max(i, j);
@@ -108,7 +108,7 @@ function getPath (i, j) {
 
 }
 
-function measureCost () {
+function measureCost () { // measure cost of the selected path
 
     let len = selectedPath.length;
     if (len == 10) {
