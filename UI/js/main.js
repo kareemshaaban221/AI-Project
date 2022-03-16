@@ -124,7 +124,7 @@ function measureCost () { // measure cost of the selected path
     
 }
 
-function validPathExists() {
+function validNodeExists() { // check if there is a valid node can be selected or not
 
     let currentNode = selectedPath[selectedPath.length - 1] // current selected node
     , node = null, found = false;
