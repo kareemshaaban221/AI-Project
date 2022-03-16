@@ -40,12 +40,17 @@ function nodeClick (e) {
     }
 
     if(selectedPath.length == 10) { // end point of the game
-        let pathFromEndToBeginning = isPathExists( selectedPath[selectedPath.length - 1], selectedPath[0] );
+        let pathFromEndToBeginning = getPath( selectedPath[selectedPath.length - 1], selectedPath[0] );
         if( pathFromEndToBeginning ){
             let path = selectedPath.join('-');
             alert("The path you select is " + path);
         } else {
             alert('Invalid path for solving TSP problem!');
+            resetGraph();
+        }
+    } else {
+        if(!validPathExists()) {
+            alert('There is no valid edges can be selected any more');
             resetGraph();
         }
     }
@@ -61,7 +66,7 @@ function highlightPath(currentNode) {
         return true;
     }
 
-    let path = isPathExists(selectedPath[nodesCount - 1], currentNode);
+    let path = getPath(selectedPath[nodesCount - 1], currentNode);
     
     if (path) {
         path.classList.add('active-path');
@@ -95,7 +100,7 @@ function resetGraph () {
 
 }
 
-function isPathExists (i, j) {
+function getPath (i, j) {
 
     let firstNode = Math.min(i, j);
     let secondNode = Math.max(i, j);
@@ -117,6 +122,22 @@ function measureCost () {
         alert('Finish the selection process, please!');
     }
     
+}
+
+function validPathExists() {
+
+    let currentNode = selectedPath[selectedPath.length - 1] // current selected node
+    , node = null, found = false;
+    $('.node:not(.active-node)').each((i, elem) => {
+        node = elem.children[0].innerHTML.trim();
+        if(getPath(currentNode, node)) {
+            found = true;
+            return false; // break
+        }
+    });
+
+    return found;
+
 }
 
 //////////////    programming theme btn     //////////////
