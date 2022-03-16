@@ -111,7 +111,7 @@ function measureCost () {
         for(let i = 0; i < len - 1; i++) {
             cost += graph[selectedPath[i]][selectedPath[i+1]]; // current node and the next node cost.
         }
-        cost += graph[len - 1][0]; // cost of returning to first node
+        cost += graph[selectedPath[len - 1]][selectedPath[0]]; // cost of returning to first node
         alert('Your selected path cost equals: ' + cost);
     } else {
         alert('Finish the selection process, please!');
