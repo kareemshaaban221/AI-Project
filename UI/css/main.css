@@ -1,6 +1,5 @@
-.graph.container {
-    background-color: aliceblue;
-    border: 1px solid #ddd;
+* {
+    transition: 0.1s;
 }
 
 /***** Node styles ******/
@@ -208,4 +207,20 @@
 .active-path:hover > span {
     background-color: rgba(255, 0, 0, 0.589);
     color: white;
+}
+
+.bg-aliceblue {
+    background-color: aliceblue !important;
+}
+
+.bg-mygray {
+    background-color: rgb(224, 224, 224) !important;
+}
+
+/* other styles */
+#theme-btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    position: fixed;
+    top: 100px;
 }

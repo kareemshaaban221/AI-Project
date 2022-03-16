@@ -1,3 +1,17 @@
+const graph = {
+    1 : {2: 5, 8: 20, 7: 2},
+    2 : {1: 5, 9: 5, 5: 2, 3: 5},
+    3 : {2: 5, 7: 4, 4: 3, 6: 2},
+    4 : {3: 3, 6: 5, 7: 2},
+    5 : {2: 2, 7: 15, 10: 8, 8: 10},
+    6 : {3: 2, 4: 5, 10: 12, 8: 5},
+    7 : {1: 2, 5: 15, 3: 4, 4: 2},
+    8 : {10: 2, 5: 10, 1: 20, 6: 5},
+    9 : {2: 5, 10: 2},
+    10: {5: 8, 6: 12, 8: 2, 9: 2}
+};
+
+
 let allNodes = document.getElementsByClassName('node');
 
 for (let i = 0; i < allNodes.length; i++) {
@@ -17,34 +31,46 @@ function nodeClick (e) {
     if(cl.contains('active-node')) {
         alert('This node is already selected');
     } else {
-        cl.add('active-node');
-        selectedPath.push( clicked.children[0].innerHTML.trim() );
+        let nodeNumber = clicked.children[0].innerHTML.trim();
 
-        highlightPaths();
+        if( highlightPath(nodeNumber) ) { // if operation success
+            cl.add('active-node');
+            selectedPath.push(nodeNumber);
+        }
     }
 
-    if(selectedPath.length == 10) {
-        let path = selectedPath.toString();
-        alert("The path you select is " + path);
-        resetGraph();
+    if(selectedPath.length == 10) { // end point of the game
+        let pathFromEndToBeginning = isPathExists( selectedPath[selectedPath.length - 1], selectedPath[0] );
+        if( pathFromEndToBeginning ){
+            let path = selectedPath.join('-');
+            alert("The path you select is " + path);
+        } else {
+            alert('Invalid path for solving TSP problem!');
+            resetGraph();
+        }
     }
 
-    console.log(selectedPath);
+    // console.log(selectedPath); // for testing
     
 }
 
-function highlightPaths () {
+function highlightPath(currentNode) {
+
     let nodesCount = selectedPath.length;
-    if(nodesCount == 1) {
-        return;
+    if (!nodesCount) {
+        return true;
     }
 
-
-    let firstNode = Math.min(selectedPath[nodesCount - 1], selectedPath[nodesCount - 2]);
-    let secondNode = Math.max(selectedPath[nodesCount - 1], selectedPath[nodesCount - 2]);
-
-
-    $('#path-'+firstNode+'-'+secondNode).addClass('active-path'); 
+    let path = isPathExists(selectedPath[nodesCount - 1], currentNode);
+    
+    if (path) {
+        path.classList.add('active-path');
+        return true;
+    } else {
+        alert('No available paths to this node!');
+        return false;
+    }
+    
 }
 
 function resetGraph () {
@@ -68,3 +94,55 @@ function resetGraph () {
     selectedPath = [];
 
 }
+
+function isPathExists (i, j) {
+
+    let firstNode = Math.min(i, j);
+    let secondNode = Math.max(i, j);
+    return document.getElementById('path-'+firstNode+'-'+secondNode);
+    
+}
+
+function measureCost () {
+
+    let len = selectedPath.length;
+    if (len == 10) {
+        let cost = 0;
+        for(let i = 0; i < len - 1; i++) {
+            cost += graph[selectedPath[i]][selectedPath[i+1]]; // current node and the next node cost.
+        }
+        alert('Your selected path cost equals: ' + cost);
+    } else {
+        alert('Finish the selection process, please!');
+    }
+    
+}
+
+//////////////    programming theme btn     //////////////
+$('#theme-btn').click((e) => {
+    let clicked = e.target;
+    if(clicked.tagName == 'I') {
+        clicked = clicked.parentElement;
+    }
+
+    clicked = $(clicked);
+    if(clicked.hasClass('btn-dark')){ // if the current theme is the default
+        clicked.removeClass('btn-dark').addClass('btn-light');
+        $(document.body).css('background-color', '#222');
+        $('.graph:first').addClass('bg-dark').removeClass('bg-aliceblue');
+        $('.node').each( (i, elem) => {
+            $(elem).removeClass('border-secondary').addClass('border-light text-light');
+        } );
+        $('#reset-btn').removeClass('btn-outline-dark').addClass('btn-outline-light');
+        $('#heading').addClass('text-light');
+    } else { // if the current theme is dark
+        clicked.removeClass('btn-light').addClass('btn-dark');
+        $(document.body).css('background-color', 'white');
+        $('.graph:first').addClass('bg-aliceblue').removeClass('bg-dark');
+        $('.node').each( (i, elem) => {
+            $(elem).removeClass('border-light text-light').addClass('border-secondary');
+        } );
+        $('#reset-btn').removeClass('btn-outline-light').addClass('btn-outline-dark');
+        $('#heading').removeClass('text-light');
+    }
+});
