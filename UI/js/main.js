@@ -147,3 +147,19 @@ $('#theme-btn').click((e) => {
         $('#heading').removeClass('text-light');
     }
 });
+
+////////////// paths on click //////////////
+$('.path').each((i, elem) => {
+    $(elem).click((e) => {
+        let clicked = e.target;
+        if(clicked.tagName == 'SPAN' || clicked.tagName == 'HR') {
+            clicked = clicked.parentElement;
+        }
+
+        let path = clicked.id.split('-');
+        path.shift();
+
+        let pathCost = graph[path[0]][path[1]];
+        alert('The clicked edge connect between ' + path.join('-') + ' and its cost is ' + pathCost);
+    });
+});
