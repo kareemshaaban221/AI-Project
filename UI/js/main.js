@@ -1,55 +1,51 @@
-const graph = {
-    1 : {2: 5, 8: 20, 7: 2},
-    2 : {1: 5, 9: 5, 5: 2, 3: 5},
-    3 : {2: 5, 7: 4, 4: 3, 6: 2},
-    4 : {3: 3, 6: 5, 7: 2},
-    5 : {2: 2, 7: 15, 10: 8, 8: 10},
-    6 : {3: 2, 4: 5, 10: 12, 8: 5},
-    7 : {1: 2, 5: 15, 3: 4, 4: 2},
-    8 : {10: 2, 5: 10, 1: 20, 6: 5},
-    9 : {2: 5, 10: 2},
-    10: {5: 8, 6: 12, 8: 2, 9: 2}
-};
+let graph = new Graph(
+    {
+        1 : {2: 5, 8: 20, 7: 2},
+        2 : {1: 5, 9: 5, 5: 2, 3: 5},
+        3 : {2: 5, 7: 4, 4: 3, 6: 2},
+        4 : {3: 3, 6: 5, 7: 2},
+        5 : {2: 2, 7: 15, 10: 8, 8: 10},
+        6 : {3: 2, 4: 5, 10: 12, 8: 5},
+        7 : {1: 2, 5: 15, 3: 4, 4: 2},
+        8 : {10: 2, 5: 10, 1: 20, 6: 5},
+        9 : {2: 5, 10: 2},
+        10: {5: 8, 6: 12, 8: 2, 9: 2}
+    }
+);
 
 
 let allNodes = document.getElementsByClassName('node');
 
-for (let i = 0; i < allNodes.length; i++) {
-    allNodes[i].addEventListener('click', nodeClick);
-}
+addClickEvent(allNodes, nodeClick); // helper function
 
-let selectedPath = [];
+let selectedPath = new Path();
 
 function nodeClick (e) {
 
-    let clicked = e.target;
-    if(clicked.tagName == 'SPAN'){ // get btn element
-        clicked = clicked.parentElement;
-    }
+    let clicked = getClickedButton(e.target, ['SPAN']); // helper function
     
-    let cl = clicked.classList;
-    if(cl.contains('active-node')) {
+    if( clicked.isSelected() ) {
         alert('This node is already selected');
     } else {
-        let nodeNumber = clicked.children[0].innerHTML.trim();
-
-        if( highlightPath(nodeNumber) ) { // if operation success
-            cl.add('active-node');
-            selectedPath.push(nodeNumber);
-        }
+        highlightPath(clicked) ? clicked.addTo(selectedPath) : alert('No available paths to this node!');
     }
 
-    if(selectedPath.length == 10) { // end point of the game
-        let pathFromEndToBeginning = getPath( selectedPath[selectedPath.length - 1], selectedPath[0] );
+    if(selectedPath.length() == 10) { // end point of the game
+
+        let pathFromEndToBeginning = findEdge( selectedPath.lastNode(), selectedPath.firstNode() );
+
         if( pathFromEndToBeginning ){
-            let path = selectedPath.join('-');
+            pathFromEndToBeginning.classList.add('active-path'); // hightlight the end path
+            selectedPath.addNode(selectedPath.firstNode());
+            let path = selectedPath.pathToString('-');
             alert("The path you select is " + path);
         } else {
             alert('Invalid path for solving TSP problem!');
             resetGraph();
         }
+
     } else {
-        if(!validNodeExists()) {
+        if(!validNodeExists() && selectedPath.length() < 11) {
             alert('There is no valid nodes can be selected any more');
             resetGraph();
         }
@@ -60,19 +56,17 @@ function nodeClick (e) {
 }
 
 function highlightPath(currentNode) {
-
-    let nodesCount = selectedPath.length;
-    if (!nodesCount) {
+    
+    if (!selectedPath.length()) {
         return true;
     }
 
-    let path = getPath(selectedPath[nodesCount - 1], currentNode);
+    let path = findEdge(selectedPath.lastNode(), currentNode.label());
     
     if (path) {
         path.classList.add('active-path');
         return true;
     } else {
-        alert('No available paths to this node!');
         return false;
     }
     
@@ -85,7 +79,7 @@ function resetGraph () {
     let len = elems.length;
     for (let i = 0; i < len; i++) {
         let elem = elems[i];
-        elem.classList.remove('active-node');
+        $(elem).removeClass('active-node active-first-node');
     }
 
     // reset edges
@@ -93,14 +87,14 @@ function resetGraph () {
     len = elems.length;
     for (let i = 0; i < len; i++) {
         let elem = elems[i];
-        elem.classList.remove('active-path');
+        $(elem).removeClass('active-path');
     }
 
-    selectedPath = [];
+    return selectedPath.init();
 
 }
 
-function getPath (i, j) { // get path html element that link i with j
+function findEdge (i, j) { // get path html element that link i with j
 
     let firstNode = Math.min(i, j);
     let secondNode = Math.max(i, j);
@@ -110,13 +104,8 @@ function getPath (i, j) { // get path html element that link i with j
 
 function measureCost () { // measure cost of the selected path
 
-    let len = selectedPath.length;
-    if (len == 10) {
-        let cost = 0;
-        for(let i = 0; i < len - 1; i++) {
-            cost += graph[selectedPath[i]][selectedPath[i+1]]; // current node and the next node cost.
-        }
-        cost += graph[selectedPath[len - 1]][selectedPath[0]]; // cost of returning to first node
+    if (selectedPath.isCompleted()) {
+        let cost = graph.costOf(selectedPath);
         alert('Your selected path cost equals: ' + cost);
     } else {
         alert('Finish the selection process, please!');
@@ -126,11 +115,11 @@ function measureCost () { // measure cost of the selected path
 
 function validNodeExists() { // check if there is a valid node can be selected or not
 
-    let currentNode = selectedPath[selectedPath.length - 1] // current selected node
+    let currentNode = selectedPath.lastNode() // current selected node
     , node = null, found = false;
-    $('.node:not(.active-node)').each((i, elem) => {
+    $('.node:not(.active-node):not(.active-first-node)').each((i, elem) => {
         node = elem.children[0].innerHTML.trim();
-        if(getPath(currentNode, node)) {
+        if(findEdge(currentNode, node)) {
             found = true;
             return false; // break
         }
@@ -141,11 +130,10 @@ function validNodeExists() { // check if there is a valid node can be selected o
 }
 
 //////////////    programming theme btn     //////////////
-$('#theme-btn').click((e) => {
-    let clicked = e.target;
-    if(clicked.tagName == 'I') {
-        clicked = clicked.parentElement;
-    }
+$('#theme-btn').click(changeTheme);
+
+function changeTheme(e) {
+    let clicked = getClickedButton(e.target, ['I']);
 
     clicked = $(clicked);
     if(clicked.hasClass('btn-dark')){ // if the current theme is the default
@@ -167,15 +155,12 @@ $('#theme-btn').click((e) => {
         $('#reset-btn').removeClass('btn-outline-light').addClass('btn-outline-dark');
         $('#heading').removeClass('text-light');
     }
-});
+}
 
 ////////////// paths on click //////////////
 $('.path').each((i, elem) => {
     $(elem).click((e) => {
-        let clicked = e.target;
-        if(clicked.tagName == 'SPAN' || clicked.tagName == 'HR') {
-            clicked = clicked.parentElement;
-        }
+        let clicked = getClickedButton(e.target, ['SPAN', 'I']);
 
         let path = clicked.id.split('-');
         path.shift();
