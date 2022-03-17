@@ -22,8 +22,8 @@ let selectedPath = new Path();
 
 function nodeClick (e) {
 
-    let clicked = getClickedButton(e.target, ['SPAN']); // helper function
-    
+    let clicked = new Node(getClickedButton(e.target, ['SPAN'])); // helper function
+
     if( clicked.isSelected() ) {
         alert('This node is already selected');
     } else {
@@ -32,22 +32,23 @@ function nodeClick (e) {
 
     if(selectedPath.length() == 10) { // end point of the game
 
-        let pathFromEndToBeginning = findEdge( selectedPath.lastNode(), selectedPath.firstNode() );
+        let edgeFromEndToBeginning = findEdge( selectedPath.lastNode(), selectedPath.firstNode() );
 
-        if( pathFromEndToBeginning ){
-            pathFromEndToBeginning.classList.add('active-path'); // hightlight the end path
+        if( edgeFromEndToBeginning.addToGraph() ){
+
             selectedPath.addNode(selectedPath.firstNode());
             let path = selectedPath.pathToString('-');
             alert("The path you select is " + path);
+
         } else {
             alert('Invalid path for solving TSP problem!');
-            resetGraph();
+            graph.reset(selectedPath);
         }
 
     } else {
         if(!validNodeExists() && selectedPath.length() < 11) {
             alert('There is no valid nodes can be selected any more');
-            resetGraph();
+            graph.reset(selectedPath);
         }
     }
 
@@ -61,44 +62,17 @@ function highlightPath(currentNode) {
         return true;
     }
 
-    let path = findEdge(selectedPath.lastNode(), currentNode.label());
+    let edge = findEdge(selectedPath.lastNode(), currentNode.label());
     
-    if (path) {
-        path.classList.add('active-path');
-        return true;
-    } else {
-        return false;
-    }
+    return edge.addToGraph();
     
-}
-
-function resetGraph () {
-
-    // reset nodes
-    let elems = $('.graph .node');
-    let len = elems.length;
-    for (let i = 0; i < len; i++) {
-        let elem = elems[i];
-        $(elem).removeClass('active-node active-first-node');
-    }
-
-    // reset edges
-    elems = $('.graph .path');
-    len = elems.length;
-    for (let i = 0; i < len; i++) {
-        let elem = elems[i];
-        $(elem).removeClass('active-path');
-    }
-
-    return selectedPath.init();
-
 }
 
 function findEdge (i, j) { // get path html element that link i with j
 
     let firstNode = Math.min(i, j);
     let secondNode = Math.max(i, j);
-    return document.getElementById('path-'+firstNode+'-'+secondNode);
+    return new Edge( document.getElementById('path-'+firstNode+'-'+secondNode) );
 
 }
 
@@ -118,8 +92,8 @@ function validNodeExists() { // check if there is a valid node can be selected o
     let currentNode = selectedPath.lastNode() // current selected node
     , node = null, found = false;
     $('.node:not(.active-node):not(.active-first-node)').each((i, elem) => {
-        node = elem.children[0].innerHTML.trim();
-        if(findEdge(currentNode, node)) {
+        let node = new Node(elem);
+        if( findEdge(currentNode, node.label()).isExists() ) {
             found = true;
             return false; // break
         }
@@ -144,7 +118,9 @@ function changeTheme(e) {
             $(elem).removeClass('border-secondary').addClass('border-light text-light');
         } );
         $('#reset-btn').removeClass('btn-outline-dark').addClass('btn-outline-light');
-        $('#heading').addClass('text-light');
+        $('.heading').each( (i, e) => {
+            $(e).addClass('text-light');
+        });
     } else { // if the current theme is dark
         clicked.removeClass('btn-light').addClass('btn-dark');
         $(document.body).css('background-color', 'white');
@@ -153,7 +129,9 @@ function changeTheme(e) {
             $(elem).removeClass('border-light text-light').addClass('border-secondary');
         } );
         $('#reset-btn').removeClass('btn-outline-light').addClass('btn-outline-dark');
-        $('#heading').removeClass('text-light');
+        $('.heading').each( (i, e) => {
+            $(e).removeClass('text-light');
+        });
     }
 }
 
@@ -165,7 +143,7 @@ $('.path').each((i, elem) => {
         let path = clicked.id.split('-');
         path.shift();
 
-        let pathCost = graph[path[0]][path[1]];
+        let pathCost = graph.costOf(new Path([path[0], path[1]]));
         alert('The clicked edge connect between ' + path.join('-') + ' and its cost is ' + pathCost);
     });
 });

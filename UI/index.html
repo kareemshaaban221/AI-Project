@@ -18,13 +18,14 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body>
+<body style="background-color: white">
 
-    <h1 class="text-center p-2" id="heading">
+    <h1 class="text-center p-2 heading">
         Travelling Salesman Problem
     </h1>
     <div class="graph container rounded p-5 mt-3 text-center position-relative shadow bg-aliceblue border">
 
+        <h2 class="heading" style="position: absolute; left: 0; right: 0; margin-left: auto; margin-right: auto;">Select path on the graph</h2>
         <div class="row justify-content-around m-5">
             <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
                 <span>
@@ -190,7 +191,7 @@
                 Measure Cost
             </button>
     
-            <button onclick="resetGraph()" id="reset-btn" class="btn btn-outline-dark">
+            <button onclick="graph.reset(selectedPath)" id="reset-btn" class="btn btn-outline-dark">
                 Reset
             </button>
         </div>
@@ -218,6 +219,7 @@
     <script src="js/helperFunctions.js"></script>
     <script src="js/Path.js"></script>
     <script src="js/Node.js"></script>
+    <script src="js/Edge.js"></script>
     <script src="js/Graph.js"></script>
     <script src="js/main.js"></script>
 </body>

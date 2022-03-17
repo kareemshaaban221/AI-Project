@@ -19,4 +19,8 @@ class Node {
 
         path.addNode( this.label() );
     }
+
+    removeFromGraph() {
+        return $(this.node).removeClass('active-node active-first-node');
+    }
 }

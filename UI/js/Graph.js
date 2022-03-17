@@ -13,4 +13,20 @@ class Graph {
 
         return cost;
     }
+
+    reset(path) {
+        // reset nodes
+        let elems = document.querySelectorAll('.graph .node');
+        elems.forEach(elem => {
+            (new Node(elem)).removeFromGraph();
+        });
+
+        // reset edges
+        elems = document.querySelectorAll('.graph .path');
+        elems.forEach(elem => {
+            (new Edge(elem)).removeFromGraph();
+        });
+
+        path.init();
+    }
 }

@@ -4,7 +4,7 @@ function getClickedButton(target, notNeededChildElems = []) {
         target = target.parentElement;
     }
 
-    return new Node(target);
+    return target;
 
 }
 
