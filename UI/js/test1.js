@@ -240,11 +240,13 @@ function createPopulation(paths, numOfPopulation) { //R
     var genome, shuffledArray, p = [];
     for (let i = 0; i < numOfPopulation; i++) {
         genome = { path: [], cost: 0 };
+        shuffledArray = [];
         do {
             shuffledArray = paths.sort((a, b) => 0.5 - Math.random());
             shuffledArray.filter((item, index) => shuffledArray.indexOf(item) !== index);
         }
         while (shuffledArray.length != paths.length);
+
         genome.path = shuffledArray;
         genome.cost = calcCostPaths(shuffledArray);
         p.push(genome);
@@ -262,8 +264,10 @@ function calcCostPaths(path) { //R
     var sum = 0;
     for (let i = 0; i < path.length - 1; i++) {
         sum += calcCost2node(nodes[path[i]], nodes[path[i + 1]]);
-
     }
+
+    sum += calcCost2node(nodes[path[0]], nodes[path[path.length - 1]]);
+
     return Math.floor(sum);
 }
 
@@ -345,12 +349,4 @@ function nextGeneration(p, numOfGeneration) {
         console.log(theBestEvre.cost);
 
     }, 10);
-}
-
-function sleep(milliseconds) {
-    const date = Date.now();
-    let currentDate = null;
-    do {
-      currentDate = Date.now();
-    } while (currentDate - date < milliseconds);
 }

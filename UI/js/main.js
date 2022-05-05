@@ -56,7 +56,7 @@ function highlightPath(currentNode) {
 function measureCost() { // measure cost of the selected path
 
     if (selectedPath.isCompleted()) {
-        let cost = graph.costOf(selectedPath);
+        let cost = calcCostPaths(selectedPath.pathArrayZero());
         alert('Your selected path cost equals: ' + cost);
     } else {
         alert('Finish the selection process, please!');
@@ -100,6 +100,7 @@ function changeTheme(e) {
         $('.heading').each((i, e) => {
             $(e).addClass('text-light');
         });
+        $('#waitingMsg').addClass('text-light');
     } else { // if the current theme is dark
         clicked.removeClass('btn-light').addClass('btn-dark');
         $(document.body).css('background-color', 'white');
@@ -111,16 +112,19 @@ function changeTheme(e) {
         $('.heading').each((i, e) => {
             $(e).removeClass('text-light');
         });
+        $('#waitingMsg').removeClass('text-light');
     }
 }
 
 $('#resetBtn').click(() => graph.reset(selectedPath, ctx));
 $('#resetBtn').tooltip();
 
-$('#clearBtn').click(() => clear());
+$('#clearBtn').click(clear);
 $('#clearBtn').tooltip();
 
-$('#solveBtn').click(() => solve());
+$('#solveBtn').click(solve);
+
+$('#measureCostBtn').click(measureCost);
 
 function getInput(e) {
     graph.reset(selectedPath, ctx);
@@ -158,6 +162,10 @@ function solve() {
     let p = createPopulation(paths, numNodes ? numNodes : 6);
     nextGeneration(p, 1000);
 
+    $('#resetBtn').attr('disabled', true);
+    $('#solveBtn').attr('disabled', true);
+    $('#measureCostBtn').attr('disabled', true);
+
     $('#waitingMsg').removeClass('d-none');
     let secondsSpan = document.getElementById('secondsLeft');
     
@@ -166,6 +174,10 @@ function solve() {
         if(secondsSpan.innerHTML == 0) {
             clearInterval(i);
             $('#waitingMsg').addClass('d-none');
+
+            $('#resetBtn').removeAttr('disabled');
+            $('#solveBtn').removeAttr('disabled');
+            $('#measureCostBtn').removeAttr('disabled');
 
             secondsSpan.innerHTML = 10;
         } else {

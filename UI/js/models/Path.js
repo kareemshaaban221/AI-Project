@@ -34,8 +34,16 @@ class Path {
         return this.selectedPath;
     }
 
+    pathArray() {
+        return this.selectedPath;
+    }
+
+    pathArrayZero() {
+        return this.selectedPath.map(elem => elem - 1);
+    }
+
     isCompleted() {
-        return this.length() == 11;
+        return this.length() == nodes.length + 1;
     }
 
     index(i) {
