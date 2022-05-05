@@ -64,3 +64,13 @@
     position: fixed;
     top: 100px;
 }
+
+#waitingMsg {
+    top: 50px;
+    z-index: 1564986419848;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    background-color: #5fca7869 !important;
+}

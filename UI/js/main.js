@@ -155,8 +155,22 @@ function clear() {
 }
 
 function solve() {
-    console.log(numNodes);
-    console.log(paths);
     let p = createPopulation(paths, numNodes ? numNodes : 6);
     nextGeneration(p, 1000);
+
+    $('#waitingMsg').removeClass('d-none');
+    let secondsSpan = document.getElementById('secondsLeft');
+    
+    let timer = 9;
+    let i = setInterval(() => {
+        if(secondsSpan.innerHTML == 0) {
+            clearInterval(i);
+            $('#waitingMsg').addClass('d-none');
+
+            secondsSpan.innerHTML = 10;
+        } else {
+            secondsSpan.innerHTML = timer;
+            timer--;
+        }
+    }, 1000);
 }
