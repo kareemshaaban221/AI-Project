@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <title>AI | TSP</title>
 
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+
     <!-- font awesome css -->
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
 
@@ -18,212 +17,54 @@
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body style="background-color: white">
+<body id="ccc">
 
     <h1 class="text-center p-2 heading">
         Travelling Salesman Problem
     </h1>
     <div class="graph container rounded p-5 mt-3 text-center position-relative shadow bg-aliceblue border">
-
-        <h2 class="heading" style="position: absolute; left: 0; right: 0; margin-left: auto; margin-right: auto;">
-            Select path on the graph
-        </h2>
-        <div class="row justify-content-around m-5">
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    1
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    2
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    9
-                </span>
-            </button>
+        <div id="nodesContainer" class="position-relative p-0 w-auto h-auto">
+            <canvas id="myCanvas"></canvas>
         </div>
 
-        <div class="row justify-content-around m-5">
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    7
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2"
-                style="position: relative; bottom: -50px">
-                <span>
-                    3
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2"
-                style="position: relative; top: -50px">
-                <span>
-                    5
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    10
-                </span>
-            </button>
-        </div>
+        <div class="myForm row justify-content-around p-2 m-2">
+            <div class="col-3">
+                <input class="form-control" id="input" type="text" placeholder="Enter number of nodes" onkeyup="getInput()">
+            </div>
 
-        <div class="row justify-content-around m-5">
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    4
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    6
-                </span>
-            </button>
-            <button class="rounded-circle node btn btn-outline-primary border-secondary p-2">
-                <span>
-                    8
-                </span>
-            </button>
-        </div>
+            <div class="col-3">
+                <button class="btn btn-success">Confirm</button>
+                <button class="btn btn-outline-info" id="solveBtn">Solve <i class="fa fa-tasks"></i></button>
+                <button class="btn btn-outline-dark" id="resetBtn" title="Reset"><i class="fa fa-refresh"></i></button>
+            </div>
 
-        <!-- first route 1-8-5-7-3-4-6-10-9-2-1 -->
-
-        <!-- node 1 paths -->
-        <div id="path-1-8" class="d-inline-block path">
-            <span>20</span>
-            <hr class="m-0">
+            <button class="btn btn-transparent text-danger" data-toggle="tooltip" data-placement="left" title="Clear" style="position: absolute; right: 10px; top: 10px;" id="clearBtn"><i class="fa fa-remove fa-2x"></i></button>
         </div>
-
-        <div id="path-1-7" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-1-2" class="d-inline-block path">
-            <span>5</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 2 paths -->
-        <div id="path-2-9" class="d-inline-block path">
-            <span>5</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-2-3" class="d-inline-block path">
-            <span>5</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-2-5" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 3 paths -->
-        <div id="path-3-7" class="d-inline-block path">
-            <span>4</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-3-6" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-3-4" class="d-inline-block path">
-            <span>3</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 4 paths -->
-        <div id="path-4-7" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-4-6" class="d-inline-block path">
-            <span>5</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 5 paths -->
-        <div id="path-5-8" class="d-inline-block path">
-            <span>10</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-5-10" class="d-inline-block path">
-            <span>8</span>
-            <hr class="m-0">
-        </div>
-
-        <div id="path-5-7" class="d-inline-block path">
-            <span>15</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 6 paths -->
-        <div id="path-6-10" class="d-inline-block path">
-            <span>12</span>
-            <hr class="m-0">
-        </div>
-        <div id="path-6-8" class="d-inline-block path">
-            <span>5</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 8 paths  -->
-        <div id="path-8-10" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <!-- node 9 paths -->
-        <div id="path-9-10" class="d-inline-block path">
-            <span>2</span>
-            <hr class="m-0">
-        </div>
-
-        <div class="row text-center justify-content-center">
-            <button onclick="measureCost()" class="btn btn-success mr-2">
-                Measure Cost
-            </button>
-    
-            <button onclick="graph.reset(selectedPath)" id="reset-btn" class="btn btn-outline-dark">
-                Reset
-            </button>
-        </div>
-
     </div>
 
     <button class="btn btn-dark" id="theme-btn">
         <i class="fa fa-paint-brush" aria-hidden="true"></i>
     </button>
 
-
     <!-- JQuery -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    <script src="js/bootstrap/jquery.slim.min.js">
     </script>
     <!-- Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    <script src="js/bootstrap/popper.min.js">
     </script>
     <!-- Bootstrap.js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
-        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous">
+    <script src="js/bootstrap/bootstrap.min.js">
     </script>
     <!-- My js -->
+    <script src="js/models/Path.js"></script>
+    <script src="js/models/Node.js"></script>
+    <script src="js/models/Edge.js"></script>
+    <script src="js/models/Graph.js"></script>
     <script src="js/helperFunctions.js"></script>
-    <script src="js/Path.js"></script>
-    <script src="js/Node.js"></script>
-    <script src="js/Edge.js"></script>
-    <script src="js/Graph.js"></script>
+    <script src="js/superGlobals.js"></script>
+    <script src="js/test1.js"></script>
     <script src="js/main.js"></script>
+
 </body>
 
 </html>
