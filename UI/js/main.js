@@ -90,7 +90,7 @@ function changeTheme(e) {
 
     clicked = $(clicked);
     if (clicked.hasClass('btn-dark')) { // if the current theme is the default
-        clicked.removeClass('btn-dark').addClass('btn-light');
+        clicked.removeClass('btn-dark').addClass('btn-warning');
         $(document.body).css('background-color', '#222');
         $('.graph:first').addClass('bg-dark').removeClass('bg-aliceblue');
         $('.node').each((i, elem) => {
@@ -101,8 +101,10 @@ function changeTheme(e) {
             $(e).addClass('text-light');
         });
         $('#waitingMsg').addClass('text-light');
+        clicked.children().eq(0).addClass('d-none');
+        clicked.children().eq(1).removeClass('d-none');
     } else { // if the current theme is dark
-        clicked.removeClass('btn-light').addClass('btn-dark');
+        clicked.removeClass('btn-warning').addClass('btn-dark');
         $(document.body).css('background-color', 'white');
         $('.graph:first').addClass('bg-aliceblue').removeClass('bg-dark');
         $('.node').each((i, elem) => {
@@ -113,6 +115,8 @@ function changeTheme(e) {
             $(e).removeClass('text-light');
         });
         $('#waitingMsg').removeClass('text-light');
+        clicked.children().eq(1).addClass('d-none');
+        clicked.children().eq(0).removeClass('d-none');
     }
 }
 
