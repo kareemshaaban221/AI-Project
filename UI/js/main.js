@@ -136,7 +136,7 @@ function getInput(e) {
 
     theBestEvre = { path: [], cost: Infinity };
 
-    nodes = createNodeBefore(s, numNodes && numNodes <= 100 ? numNodes : 6);
+    nodes = createNodeBefore(s, numNodes && numNodes <= 200 ? numNodes : 6);
     ///this part has changed by <Mohamed diaa>
     //
     paths = setAllpaths(nodes);
@@ -158,6 +158,9 @@ function clear() {
     });
 }
 
+let interval;
+let secondsSpan = document.getElementById('secondsLeft');
+
 function solve() {
     let p = createPopulation(paths, numNodes ? numNodes : 6);
     nextGeneration(p, 1000);
@@ -165,24 +168,40 @@ function solve() {
     $('#resetBtn').attr('disabled', true);
     $('#solveBtn').attr('disabled', true);
     $('#measureCostBtn').attr('disabled', true);
+    $('#input').attr('disabled', true);
+    $('#clearBtn').attr('disabled', true);
 
     $('#waitingMsg').removeClass('d-none');
-    let secondsSpan = document.getElementById('secondsLeft');
     
     let timer = 9;
-    let i = setInterval(() => {
+    interval = setInterval(() => {
         if(secondsSpan.innerHTML == 0) {
-            clearInterval(i);
-            $('#waitingMsg').addClass('d-none');
-
-            $('#resetBtn').removeAttr('disabled');
-            $('#solveBtn').removeAttr('disabled');
-            $('#measureCostBtn').removeAttr('disabled');
-
-            secondsSpan.innerHTML = 10;
+            stopSolvingProcess();
         } else {
             secondsSpan.innerHTML = timer;
             timer--;
         }
     }, 1000);
 }
+
+function stopSolvingProcess() {
+    clearInterval(interval);
+    $('#waitingMsg').addClass('d-none');
+
+    $('#resetBtn').removeAttr('disabled');
+    $('#solveBtn').removeAttr('disabled');
+    $('#measureCostBtn').removeAttr('disabled');
+    $('#input').removeAttr('disabled');
+    $('#clearBtn').removeAttr('disabled');
+
+    secondsSpan.innerHTML = 10;
+
+    // stop the algorithm
+    clearInterval(id);
+}
+
+$('#stopLink').click(() => {
+    stopSolvingProcess();
+
+    alert('The Best Path To Solving TSP Is : ' + selectedPath.toString())
+});

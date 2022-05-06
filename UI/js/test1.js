@@ -291,10 +291,12 @@ function findFitest(p) { //R
     return fitest
 }
 
+let id;
+
 function nextGeneration(p, numOfGeneration) {
 
     let i = 0;
-    let id = setInterval(() => {
+    id = setInterval(() => {
 
         graph.reset(selectedPath, ctx);
 
