@@ -8,4 +8,4 @@
     - JS
     - jQuery
 
-Developped by Mohamed Diea, Kareem Mohamed Shaaban, and Farag Esam
+Developed by Mohamed Diea, Kareem Mohamed Shaaban, and Farag Esam
