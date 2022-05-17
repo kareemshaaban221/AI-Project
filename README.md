@@ -8,6 +8,6 @@
     - JS
     - jQuery
 
-Live Server: ``` https://kareemshaaban221.github.io/AI-Project/UI/ ```
+Live Server: <a href='https://kareemshaaban221.github.io/AI-Project/UI/' style='color: red;'>Click Here</a>
 
 Developed by Mohamed Diea, Kareem Mohamed Shaaban, and Farag Esam
